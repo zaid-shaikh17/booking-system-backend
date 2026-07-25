@@ -8,7 +8,10 @@ const bookingSchema = new mongoose.Schema({
   status: { type: String, enum: ['confirmed', 'cancelled'], default: 'confirmed' },
 }, { timestamps: true });
 
-bookingSchema.index({ resourceId: 1, startTime: 1 }, { unique: true });
+bookingSchema.index(
+  { resourceId: 1, startTime: 1 },
+  { unique: true, partialFilterExpression: { status: 'confirmed' } }
+);
 
 const Booking = mongoose.model('Booking', bookingSchema);
 export default Booking;
