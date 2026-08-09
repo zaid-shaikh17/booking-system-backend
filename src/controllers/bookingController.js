@@ -38,6 +38,22 @@ export async function joinWaitlist(req, res) {
   }
 }
 
+export async function getMyBookings(req, res) {
+  const bookings = await Booking.find({
+    userId: req.user.id,
+    status: 'confirmed',
+    startTime: { $gte: new Date() }, // only upcoming, not past bookings
+  })
+    .populate('resourceId', 'name type')
+    .sort({ startTime: 1 });
+ 
+  const waitlist = await Waitlist.find({ userId: req.user.id })
+    .populate('resourceId', 'name type')
+    .sort({ startTime: 1 });
+ 
+  res.json({ bookings, waitlist });
+}
+
 export async function cancel(req, res) {
   try {
     const booking = await cancelBooking(req.params.id);
