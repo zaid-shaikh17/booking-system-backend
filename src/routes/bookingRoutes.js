@@ -7,6 +7,6 @@ router.post('/', authMiddleware, create);
 router.delete('/:id', authMiddleware, cancel);
 router.get('/availability', authMiddleware, getAvailability);
 router.post('/waitlist', authMiddleware, joinWaitlist);
-router.get('/my-bookings', authMiddleware, getMyBookings);
+router.get('/my', authMiddleware, getMyBookings);
 
 export default router;
