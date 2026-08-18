@@ -4,6 +4,11 @@ import Booking from '../models/Booking.js';
 import { promoteFromWaitlist } from './waitlistService.js';
 
 export async function createBooking(data, retries = 5) {
+    if (new Date(data.startTime) < new Date()) {
+    const err = new Error('SLOT_IN_PAST');
+    err.code = 'SLOT_IN_PAST';
+    throw err;
+  }
   for (let attempt = 0; attempt < retries; attempt++) {
     const session = await mongoose.startSession();
     try {

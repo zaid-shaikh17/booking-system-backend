@@ -8,6 +8,7 @@ export async function create(req, res) {
     res.status(201).json(booking);
   } catch (err) {
     if (err.code === 'SLOT_TAKEN') return res.status(409).json({ error: 'Slot already booked' });
+    if (err.code === 'SLOT_IN_PAST') return res.status(400).json({ error: 'Cannot book a slot in the past' });
     res.status(500).json({ error: 'Server error' });
   }
 }
